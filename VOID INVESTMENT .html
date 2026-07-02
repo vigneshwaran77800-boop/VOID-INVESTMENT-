@@ -1,0 +1,1925 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>VOID INVESTMENT</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap');
+
+  :root {
+    --bg: #080c10;
+    --bg2: #0d1117;
+    --card: #111820;
+    --card2: #161e28;
+    --border: #1e2d3d;
+    --cyan: #00e5ff;
+    --cyan2: #00b8d4;
+    --green: #00e676;
+    --red: #ff1744;
+    --gold: #ffd600;
+    --text: #e0f0ff;
+    --muted: #5a7a99;
+    --muted2: #3a5a75;
+    --shadow: 0 0 30px rgba(0,229,255,0.07);
+  }
+  .light {
+    --bg: #f0f4f8;
+    --bg2: #e4eaf2;
+    --card: #ffffff;
+    --card2: #f7fafd;
+    --border: #c8d8e8;
+    --cyan: #0077aa;
+    --cyan2: #005f88;
+    --green: #007a3d;
+    --red: #cc0022;
+    --gold: #b8860b;
+    --text: #0a1a2a;
+    --muted: #5577aa;
+    --muted2: #99aacc;
+    --shadow: 0 0 30px rgba(0,120,180,0.08);
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+
+  body {
+    font-family: 'Space Grotesk', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    transition: background 0.35s, color 0.35s;
+    overflow-x: hidden;
+  }
+
+  /* ─── SCREENS ─── */
+  .screen { display:none; min-height:100vh; }
+  .screen.active { display:flex; flex-direction:column; }
+
+  /* ─── ACCESS CODE SCREEN ─── */
+  #sc-access {
+    justify-content: center;
+    align-items: center;
+    background: radial-gradient(ellipse at 50% 30%, #0a1f2e 0%, #080c10 70%);
+  }
+  .access-box {
+    width: 92%; max-width: 380px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 40px 32px;
+    box-shadow: 0 0 60px rgba(0,229,255,0.1), var(--shadow);
+    animation: fadeUp 0.6s ease;
+    text-align: center;
+  }
+  .void-logo {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 2.2rem;
+    font-weight: 700;
+    letter-spacing: 6px;
+    color: var(--cyan);
+    text-shadow: 0 0 20px rgba(0,229,255,0.5);
+    margin-bottom: 4px;
+  }
+  .void-sub {
+    font-size: 0.72rem;
+    letter-spacing: 4px;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 32px;
+  }
+  .access-label {
+    font-size: 0.75rem;
+    letter-spacing: 3px;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .lock-icon { font-size: 2.5rem; margin-bottom: 16px; }
+
+  /* ─── INPUTS ─── */
+  .inp {
+    width: 100%;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 13px 16px;
+    color: var(--text);
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border 0.2s, box-shadow 0.2s;
+    margin-bottom: 12px;
+  }
+  .inp:focus { border-color: var(--cyan); box-shadow: 0 0 0 3px rgba(0,229,255,0.1); }
+  .inp::placeholder { color: var(--muted); }
+
+  /* ─── BUTTONS ─── */
+  .btn {
+    width: 100%;
+    padding: 13px;
+    border: none;
+    border-radius: 10px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    letter-spacing: 1px;
+    transition: all 0.2s;
+  }
+  .btn-cyan {
+    background: linear-gradient(135deg, var(--cyan), var(--cyan2));
+    color: #000;
+    box-shadow: 0 0 20px rgba(0,229,255,0.25);
+  }
+  .btn-cyan:hover { transform: translateY(-2px); box-shadow: 0 0 30px rgba(0,229,255,0.4); }
+  .btn-cyan:active { transform: translateY(0); }
+  .btn-ghost {
+    background: transparent;
+    color: var(--cyan);
+    border: 1px solid var(--border);
+  }
+  .btn-ghost:hover { border-color: var(--cyan); background: rgba(0,229,255,0.05); }
+  .btn-red { background: linear-gradient(135deg, #ff1744, #c62828); color:#fff; }
+  .btn-red:hover { box-shadow: 0 0 20px rgba(255,23,68,0.3); }
+  .btn-sm {
+    padding: 6px 14px;
+    font-size: 0.78rem;
+    width: auto;
+    border-radius: 7px;
+  }
+
+  .err-msg {
+    color: var(--red);
+    font-size: 0.8rem;
+    text-align: center;
+    min-height: 18px;
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+  .link-row {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 14px;
+    font-size: 0.82rem;
+  }
+  .lnk {
+    color: var(--cyan);
+    cursor: pointer;
+    text-decoration: none;
+  }
+  .lnk:hover { text-decoration: underline; }
+
+  /* ─── AUTH SCREENS ─── */
+  #sc-login, #sc-register, #sc-forgot {
+    justify-content: center;
+    align-items: center;
+    background: radial-gradient(ellipse at 50% 30%, #0a1f2e 0%, #080c10 70%);
+  }
+  .auth-box {
+    width: 92%; max-width: 380px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 36px 28px;
+    box-shadow: var(--shadow);
+    animation: fadeUp 0.5s ease;
+  }
+  .auth-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 6px;
+    color: var(--text);
+  }
+  .auth-eyebrow {
+    font-size: 0.7rem;
+    letter-spacing: 3px;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+  .inp-label {
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    margin-top: 4px;
+  }
+  hr.divider { border: none; border-top: 1px solid var(--border); margin: 20px 0; }
+
+  /* ─── DASHBOARD ─── */
+  #sc-dash { background: var(--bg); }
+
+  .dash-header {
+    padding: 18px 18px 12px;
+    position: sticky; top: 0; z-index: 100;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(12px);
+  }
+  .dash-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 14px;
+  }
+  .dash-eyebrow {
+    font-size: 0.65rem;
+    letter-spacing: 4px;
+    color: var(--cyan);
+    text-transform: uppercase;
+    margin-bottom: 3px;
+  }
+  .dash-title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: -0.5px;
+  }
+  .header-icons { display: flex; gap: 10px; margin-top: 4px; }
+  .icon-btn {
+    width: 40px; height: 40px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--text);
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+  }
+  .icon-btn:hover { border-color: var(--cyan); color: var(--cyan); }
+  .search-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  .search-inp {
+    flex: 1;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 9px 14px 9px 36px;
+    color: var(--text);
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.88rem;
+    outline: none;
+    transition: border 0.2s;
+  }
+  .search-inp:focus { border-color: var(--cyan); }
+  .search-inp::placeholder { color: var(--muted); }
+  .search-wrap { position: relative; flex: 1; }
+  .search-icon {
+    position: absolute; left: 11px; top: 50%; transform: translateY(-50%);
+    color: var(--muted); font-size: 0.9rem; pointer-events: none;
+  }
+  .cal-btn {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 9px 12px;
+    color: var(--text);
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .cal-btn:hover { border-color: var(--cyan); color: var(--cyan); }
+  input[type="date"].cal-btn {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.82rem;
+    color: var(--muted);
+    width: 42px;
+    overflow: hidden;
+    padding: 9px;
+  }
+  input[type="date"].cal-btn::-webkit-calendar-picker-indicator { opacity: 0; position: absolute; width: 100%; height: 100%; cursor: pointer; }
+
+  /* ─── DASH BODY ─── */
+  .dash-body {
+    padding: 16px 16px 120px;
+    flex: 1;
+    overflow-y: auto;
+  }
+
+  /* ─── ENTRY CARD ─── */
+  .entry-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow);
+    animation: fadeUp 0.4s ease;
+  }
+  .entry-card-label {
+    font-size: 0.68rem;
+    letter-spacing: 3px;
+    color: var(--cyan);
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 10px;
+    margin-bottom: 14px;
+    font-weight: 600;
+  }
+  .entry-date-display {
+    font-size: 0.95rem;
+    color: var(--muted);
+    margin-bottom: 14px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .entry-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .entry-field label {
+    display: block;
+    font-size: 0.72rem;
+    color: var(--muted);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .entry-field input {
+    width: 100%;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 12px;
+    color: var(--text);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border 0.2s;
+  }
+  .entry-field input:focus { border-color: var(--cyan); }
+  .entry-field input::placeholder { color: var(--muted2); }
+  .entry-save-row { display: flex; justify-content: flex-end; }
+  .btn-save {
+    background: linear-gradient(135deg, var(--green), #00c853);
+    color: #000;
+    border: none;
+    border-radius: 10px;
+    padding: 11px 28px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    cursor: pointer;
+    letter-spacing: 1px;
+    transition: all 0.2s;
+    box-shadow: 0 0 16px rgba(0,230,118,0.2);
+  }
+  .btn-save:hover { transform: translateY(-2px); box-shadow: 0 0 24px rgba(0,230,118,0.35); }
+  .btn-save:active { transform: translateY(0); }
+
+  /* ─── LEDGER ─── */
+  .section-label {
+    font-size: 0.68rem;
+    letter-spacing: 4px;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    font-weight: 600;
+  }
+  .ledger-table-wrap {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+  }
+  .ledger-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.82rem;
+  }
+  .ledger-table thead tr {
+    background: var(--card2);
+    border-bottom: 1px solid var(--border);
+  }
+  .ledger-table th {
+    padding: 11px 10px;
+    text-align: left;
+    font-size: 0.68rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .ledger-table td {
+    padding: 13px 10px;
+    border-bottom: 1px solid var(--border);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
+    vertical-align: middle;
+  }
+  .ledger-table tr:last-child td { border-bottom: none; }
+  .ledger-table tbody tr { transition: background 0.15s; }
+  .ledger-table tbody tr:hover { background: var(--card2); }
+  .sno { color: var(--muted); font-size: 0.75rem; }
+  .act-btns { display: flex; gap: 6px; }
+  .btn-edit {
+    background: rgba(0,229,255,0.1);
+    color: var(--cyan);
+    border: 1px solid rgba(0,229,255,0.2);
+    border-radius: 6px;
+    padding: 5px 10px;
+    font-size: 0.72rem;
+    cursor: pointer;
+    font-family: 'Space Grotesk', sans-serif;
+    transition: all 0.2s;
+  }
+  .btn-edit:hover { background: rgba(0,229,255,0.2); }
+  .btn-rm {
+    background: rgba(255,23,68,0.1);
+    color: var(--red);
+    border: 1px solid rgba(255,23,68,0.2);
+    border-radius: 6px;
+    padding: 5px 10px;
+    font-size: 0.72rem;
+    cursor: pointer;
+    font-family: 'Space Grotesk', sans-serif;
+    transition: all 0.2s;
+  }
+  .btn-rm:hover { background: rgba(255,23,68,0.2); }
+  .empty-row td {
+    text-align: center;
+    color: var(--muted);
+    padding: 28px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.85rem;
+  }
+  .balance-pos { color: var(--green); }
+  .balance-neg { color: var(--red); }
+
+  /* ─── BOTTOM TOTALS BAR ─── */
+  .totals-bar {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    background: rgba(13,17,23,0.97);
+    border-top: 1px solid var(--border);
+    backdrop-filter: blur(16px);
+    padding: 14px 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    z-index: 200;
+    transition: background 0.35s;
+  }
+  .light .totals-bar { background: rgba(240,244,248,0.97); }
+  .total-item { flex: 1; }
+  .total-lbl {
+    font-size: 0.62rem;
+    letter-spacing: 2px;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 3px;
+  }
+  .total-val {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text);
+  }
+  .total-val.green { color: var(--green); }
+  .total-item:last-child { text-align: right; }
+  .fab {
+    position: fixed;
+    bottom: 72px; right: 18px;
+    width: 52px; height: 52px;
+    background: linear-gradient(135deg, var(--cyan), var(--cyan2));
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.3rem;
+    cursor: pointer;
+    box-shadow: 0 0 24px rgba(0,229,255,0.35);
+    z-index: 300;
+    transition: all 0.2s;
+    border: none;
+    color: #000;
+  }
+  .fab:hover { transform: scale(1.1); }
+  .fab:active { transform: scale(0.95); }
+
+  /* ─── SETTINGS PANEL ─── */
+  .settings-overlay {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.6);
+    z-index: 400;
+    backdrop-filter: blur(4px);
+    animation: fadeIn 0.2s ease;
+  }
+  .settings-overlay.open { display: flex; align-items: flex-end; }
+  .settings-panel {
+    background: var(--card);
+    border-top: 1px solid var(--border);
+    border-radius: 24px 24px 0 0;
+    width: 100%;
+    padding: 12px 0 32px;
+    animation: slideUp 0.35s cubic-bezier(0.34,1.56,0.64,1);
+    max-height: 85vh;
+    overflow-y: auto;
+  }
+  .panel-handle {
+    width: 40px; height: 4px;
+    background: var(--border);
+    border-radius: 2px;
+    margin: 0 auto 20px;
+  }
+  .panel-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    padding: 0 22px 16px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 8px;
+  }
+  .setting-item {
+    padding: 15px 22px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    cursor: pointer;
+    transition: background 0.15s;
+    border-bottom: 1px solid rgba(30,45,61,0.5);
+  }
+  .setting-item:hover { background: var(--card2); }
+  .setting-icon {
+    width: 38px; height: 38px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+  }
+  .si-cyan { background: rgba(0,229,255,0.1); }
+  .si-gold { background: rgba(255,214,0,0.1); }
+  .si-green { background: rgba(0,230,118,0.1); }
+  .si-red { background: rgba(255,23,68,0.1); }
+  .si-purple { background: rgba(180,0,255,0.1); }
+  .setting-text { flex: 1; }
+  .setting-name { font-size: 0.9rem; font-weight: 600; margin-bottom: 2px; }
+  .setting-desc { font-size: 0.75rem; color: var(--muted); }
+  .setting-arrow { color: var(--muted); font-size: 0.9rem; }
+  .toggle-switch {
+    width: 44px; height: 24px;
+    background: var(--border);
+    border-radius: 12px;
+    position: relative;
+    cursor: pointer;
+    transition: background 0.25s;
+    flex-shrink: 0;
+  }
+  .toggle-switch.on { background: var(--cyan); }
+  .toggle-switch::after {
+    content: '';
+    position: absolute;
+    width: 18px; height: 18px;
+    background: #fff;
+    border-radius: 50%;
+    top: 3px; left: 3px;
+    transition: transform 0.25s;
+  }
+  .toggle-switch.on::after { transform: translateX(20px); }
+
+  /* ─── CONFIRM POPUP ─── */
+  .popup-overlay {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.7);
+    z-index: 500;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(6px);
+  }
+  .popup-overlay.open { display: flex; }
+  .popup-box {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 32px 28px;
+    width: 88%; max-width: 340px;
+    text-align: center;
+    animation: popIn 0.35s cubic-bezier(0.34,1.56,0.64,1);
+    box-shadow: 0 0 60px rgba(0,0,0,0.5);
+  }
+  .popup-icon { font-size: 2.8rem; margin-bottom: 12px; }
+  .popup-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 8px; }
+  .popup-msg { font-size: 0.85rem; color: var(--muted); margin-bottom: 24px; line-height: 1.5; }
+  .popup-btns { display: flex; gap: 10px; }
+  .popup-btns button { flex: 1; padding: 12px; border-radius: 10px; border: none; font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 0.9rem; cursor: pointer; transition: all 0.2s; }
+  .popup-cancel { background: var(--card2); color: var(--text); border: 1px solid var(--border) !important; }
+  .popup-cancel:hover { border-color: var(--cyan) !important; }
+  .popup-confirm { background: linear-gradient(135deg, var(--red), #c62828); color: #fff; }
+  .popup-confirm:hover { box-shadow: 0 0 20px rgba(255,23,68,0.3); }
+
+  /* ─── EDIT POPUP ─── */
+  .edit-popup-overlay {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.7);
+    z-index: 500;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(6px);
+  }
+  .edit-popup-overlay.open { display: flex; }
+  .edit-popup-box {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 28px 24px;
+    width: 90%; max-width: 360px;
+    animation: popIn 0.35s cubic-bezier(0.34,1.56,0.64,1);
+    box-shadow: 0 0 60px rgba(0,0,0,0.5);
+  }
+  .edit-popup-title {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 18px;
+    color: var(--cyan);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+  }
+
+  /* ─── SUB SETTINGS PANELS ─── */
+  .sub-panel-overlay {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.7);
+    z-index: 450;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(4px);
+  }
+  .sub-panel-overlay.open { display: flex; }
+  .sub-panel-box {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 28px 24px;
+    width: 90%; max-width: 360px;
+    animation: popIn 0.35s cubic-bezier(0.34,1.56,0.64,1);
+  }
+  .sub-panel-title {
+    font-size: 1rem; font-weight: 700;
+    margin-bottom: 18px;
+    display: flex; align-items: center; gap: 10px;
+  }
+
+  /* ─── LOCK SCREEN (server status) ─── */
+  #sc-serverlock {
+    justify-content: center;
+    align-items: center;
+    background: radial-gradient(ellipse at 50% 30%, #2e0a0a 0%, #080c10 70%);
+  }
+  .lock-box {
+    width: 92%; max-width: 380px;
+    background: var(--card);
+    border: 1px solid var(--red);
+    border-radius: 20px;
+    padding: 40px 32px;
+    box-shadow: 0 0 60px rgba(255,23,68,0.15);
+    text-align: center;
+    animation: fadeUp 0.5s ease;
+  }
+  .lock-box .lock-icon { font-size: 3rem; margin-bottom: 14px; }
+  .lock-box-title { font-size: 1.2rem; font-weight: 700; color: var(--red); margin-bottom: 8px; letter-spacing: 1px; }
+  .lock-box-msg { font-size: 0.85rem; color: var(--muted); margin-bottom: 22px; line-height: 1.5; }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; } to { opacity: 1; }
+  }
+  @keyframes slideUp {
+    from { transform: translateY(100%); }
+    to { transform: translateY(0); }
+  }
+  @keyframes popIn {
+    from { opacity: 0; transform: scale(0.85); }
+    to { opacity: 1; transform: scale(1); }
+  }
+  @keyframes rowFadeIn {
+    from { opacity: 0; transform: translateX(-10px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes rowFadeOut {
+    from { opacity: 1; transform: scaleY(1); max-height: 60px; }
+    to { opacity: 0; transform: scaleY(0); max-height: 0; }
+  }
+  .row-enter { animation: rowFadeIn 0.3s ease forwards; }
+  .row-exit { animation: rowFadeOut 0.35s ease forwards; overflow: hidden; }
+
+  /* ─── TOAST ─── */
+  .toast {
+    position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%) translateY(20px);
+    background: var(--card2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-size: 0.85rem;
+    color: var(--text);
+    z-index: 1000;
+    opacity: 0;
+    transition: all 0.3s;
+    white-space: nowrap;
+    pointer-events: none;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  /* ─── SCROLLBAR ─── */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+</style>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
+</head>
+<body>
+
+<div id="sc-serverlock" class="screen">
+  <div class="lock-box">
+    <div class="lock-icon">🔴</div>
+    <div class="lock-box-title">SERVER DISCONNECTED</div>
+    <div class="lock-box-msg">
+      This app reads a local browser flag from the "Server Control" file you opened earlier.
+      Open that file in another tab and switch it back to CONNECTED to unlock this screen.
+      <br><br>
+      Note: this only works if both files are served from the same origin in the same browser.
+    </div>
+    <button class="btn btn-ghost" onclick="checkServerStatus()">Check Again</button>
+  </div>
+</div>
+
+<div id="sc-login" class="screen">
+  <div class="auth-box">
+    <div class="void-logo" style="font-size:1.6rem;margin-bottom:2px">VOID</div>
+    <div class="auth-eyebrow">Investment Portal</div>
+    <div class="auth-title">Welcome Back</div>
+    <div class="auth-eyebrow">Sign in to continue</div>
+    <div class="inp-label">VOID ID</div>
+    <input class="inp" type="text" id="l-vid" placeholder="Enter your VOID ID">
+    <div class="inp-label">Password</div>
+    <input class="inp" type="password" id="l-pass" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()">
+    <div class="err-msg" id="l-err"></div>
+    <button class="btn btn-cyan" id="l-btn" onclick="doLogin()">LOGIN</button>
+    <div class="link-row" style="margin-top:16px">
+      <span class="lnk" onclick="showSc('sc-forgot')">Forgot VOID ID / Password?</span>
+      <span class="lnk" onclick="showSc('sc-register')">Register →</span>
+    </div>
+  </div>
+</div>
+
+<div id="sc-register" class="screen">
+  <div class="auth-box">
+    <div class="auth-title">Create Account</div>
+    <div class="auth-eyebrow">VOID ID Registration</div>
+    <div class="inp-label">VOID ID</div>
+    <input class="inp" type="text" id="r-vid" placeholder="Choose a unique VOID ID">
+    <div class="inp-label">Phone Number</div>
+    <input class="inp" type="tel" id="r-phone" placeholder="+91 XXXXX XXXXX">
+    <div class="inp-label">Password</div>
+    <input class="inp" type="password" id="r-pass" placeholder="Create password">
+    <div class="inp-label">Confirm Password</div>
+    <input class="inp" type="password" id="r-cpass" placeholder="Repeat password">
+    <div class="err-msg" id="r-err"></div>
+    <button class="btn btn-cyan" id="r-btn" onclick="doRegister()">CREATE ACCOUNT</button>
+    <div class="link-row" style="margin-top:14px;justify-content:center">
+      <span class="lnk" onclick="showSc('sc-login')">← Back to Login</span>
+    </div>
+  </div>
+</div>
+
+<div id="sc-forgot" class="screen">
+  <div class="auth-box">
+    <div class="auth-title">Forgot VOID ID / Password</div>
+    <div class="auth-eyebrow" id="f-eyebrow">Identity Verification</div>
+
+    <div id="f-step-phone">
+      <div class="inp-label">Phone Number</div>
+      <input class="inp" type="tel" id="f-phone" placeholder="Registered phone number">
+      <div class="err-msg" id="f-err"></div>
+      <button class="btn btn-cyan" id="f-btn" onclick="doForgot()">VERIFY WITH SERVER</button>
+    </div>
+
+    <div id="f-step-result" style="display:none">
+      <div class="inp-label">Your VOID ID</div>
+      <input class="inp" type="text" id="f-vid-display" readonly style="color:var(--cyan);font-weight:600;letter-spacing:1px">
+      <div class="inp-label">New Password</div>
+      <input class="inp" type="password" id="f-newpass" placeholder="Enter new password">
+      <div class="err-msg" id="f-err2"></div>
+      <button class="btn btn-cyan" onclick="doForgotReset()">SAVE NEW PASSWORD</button>
+    </div>
+
+    <div class="link-row" style="margin-top:14px;justify-content:center">
+      <span class="lnk" onclick="resetForgotForm();showSc('sc-login')">← Back to Login</span>
+    </div>
+  </div>
+</div>
+
+<div id="sc-dash" class="screen">
+
+  <div class="dash-header">
+    <div class="dash-top">
+      <div>
+        <div class="dash-eyebrow">Personal Ledger</div>
+        <div class="dash-title">Investment Tracking</div>
+      </div>
+      <div class="header-icons">
+        <button class="icon-btn" id="theme-btn" onclick="toggleTheme()" title="Toggle theme">☀️</button>
+        <button class="icon-btn" onclick="openSettings()" title="Settings">⚙️</button>
+      </div>
+    </div>
+    <div class="search-row">
+      <div class="search-wrap">
+        <span class="search-icon">🔍</span>
+        <input class="search-inp" type="text" id="search-txt" placeholder="Search entries..." oninput="renderTable()">
+      </div>
+      <input type="date" class="cal-btn" id="date-filter" onchange="renderTable()" title="Filter by date">
+    </div>
+  </div>
+
+  <div class="dash-body">
+
+    <div class="entry-card">
+      <div class="entry-card-label">Today's Entry</div>
+      <div class="entry-date-display" id="entry-date-display"></div>
+      <div class="entry-grid">
+        <div class="entry-field">
+          <label>Investment ($)</label>
+          <input type="number" id="e-invest" placeholder="0.00" step="0.01" min="0">
+        </div>
+        <div class="entry-field">
+          <label>Balance ($)</label>
+          <input type="number" id="e-balance" placeholder="0.00" step="0.01">
+        </div>
+        <div class="entry-field">
+          <label>Weight (g)</label>
+          <input type="number" id="e-grams" placeholder="0.0000" step="0.0001" min="0">
+        </div>
+        <div class="entry-field">
+          <label>Entry Date</label>
+          <input type="date" id="e-date">
+        </div>
+      </div>
+      <div class="entry-save-row">
+        <button class="btn-save" onclick="saveEntry()">Save</button>
+      </div>
+    </div>
+
+    <div class="section-label">Ledger</div>
+    <div class="ledger-table-wrap">
+      <table class="ledger-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Date</th>
+            <th>Investment ($)</th>
+            <th>Balance ($)</th>
+            <th>Weight (g)</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="ledger-body"></tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <div class="totals-bar">
+    <div class="total-item">
+      <div class="total-lbl">Total Investment</div>
+      <div class="total-val" id="t-invest">$0.00</div>
+    </div>
+    <div class="total-item" style="text-align:center">
+      <div class="total-lbl">Balance</div>
+      <div class="total-val green" id="t-balance">$0.00</div>
+    </div>
+    <div class="total-item">
+      <div class="total-lbl">Total Weight</div>
+      <div class="total-val" id="t-grams">0.0000 g</div>
+    </div>
+  </div>
+
+  <button class="fab" onclick="openSettings()">⚙️</button>
+
+</div>
+
+<div class="settings-overlay" id="settings-overlay" onclick="closeSettings(event)">
+  <div class="settings-panel">
+    <div class="panel-handle"></div>
+    <div class="panel-title">Settings</div>
+
+    <div class="setting-item" onclick="toggleTheme()">
+      <div class="setting-icon si-gold">☀️</div>
+      <div class="setting-text">
+        <div class="setting-name">Theme</div>
+        <div class="setting-desc" id="s-theme-desc">Dark Mode</div>
+      </div>
+      <div class="toggle-switch" id="theme-toggle"></div>
+    </div>
+
+    <div class="setting-item" onclick="openSubPanel('sp-chvid')">
+      <div class="setting-icon si-purple">🆔</div>
+      <div class="setting-text">
+        <div class="setting-name">Edit VOID ID</div>
+        <div class="setting-desc">Update your unique identifier</div>
+      </div>
+      <div class="setting-arrow">›</div>
+    </div>
+
+    <div class="setting-item" onclick="openSubPanel('sp-chpass')">
+      <div class="setting-icon si-cyan">🔑</div>
+      <div class="setting-text">
+        <div class="setting-name">Change Password</div>
+        <div class="setting-desc">Verify with current password or phone</div>
+      </div>
+      <div class="setting-arrow">›</div>
+    </div>
+
+    <div class="setting-item" onclick="openSubPanel('sp-delacc')">
+      <div class="setting-icon si-red">🗑️</div>
+      <div class="setting-text">
+        <div class="setting-name">Delete Account Permanently</div>
+        <div class="setting-desc">Erase your account and all data</div>
+      </div>
+      <div class="setting-arrow">›</div>
+    </div>
+
+    <div class="setting-item" onclick="openLogoutConfirm()">
+      <div class="setting-icon si-green">🚪</div>
+      <div class="setting-text">
+        <div class="setting-name">Logout</div>
+        <div class="setting-desc">Sign out of your account</div>
+      </div>
+      <div class="setting-arrow">›</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="sub-panel-overlay" id="sp-chvid">
+  <div class="sub-panel-box">
+    <div class="sub-panel-title">🆔 Edit VOID ID</div>
+    <div class="inp-label">New VOID ID</div>
+    <input class="inp" type="text" id="sp-new-vid" placeholder="Enter new VOID ID">
+    <div class="err-msg" id="sp-vid-err"></div>
+    <div style="display:flex;gap:10px">
+      <button class="btn btn-ghost" onclick="closeSubPanel('sp-chvid')">Cancel</button>
+      <button class="btn btn-cyan" onclick="doChangeVid()">Save</button>
+    </div>
+  </div>
+</div>
+
+<div class="sub-panel-overlay" id="sp-chpass">
+  <div class="sub-panel-box">
+    <div class="sub-panel-title">🔑 Change Password</div>
+
+    <div id="cp-method-choice">
+      <div class="inp-label">Choose a verification method</div>
+      <button class="btn btn-ghost" style="margin-bottom:10px" onclick="showCpMethod('pass')">Use Current Password</button>
+      <button class="btn btn-ghost" onclick="showCpMethod('phone')">Verify Phone Number</button>
+      <div style="display:flex;gap:10px;margin-top:14px">
+        <button class="btn btn-ghost" onclick="closeSubPanel('sp-chpass')">Cancel</button>
+      </div>
+    </div>
+
+    <div id="cp-step-currpass" style="display:none">
+      <div class="inp-label">Current Password</div>
+      <input class="inp" type="password" id="sp-curr-pass" placeholder="Enter current password">
+      <div class="err-msg" id="sp-currpass-err"></div>
+      <div style="display:flex;gap:10px">
+        <button class="btn btn-ghost" onclick="backToCpChoice()">Back</button>
+        <button class="btn btn-cyan" onclick="verifyCurrentPasswordForChange()">Verify</button>
+      </div>
+    </div>
+
+    <div id="cp-step-phone" style="display:none">
+      <div class="inp-label">Phone Number</div>
+      <input class="inp" type="tel" id="sp-phone-verify" placeholder="Enter registered phone number">
+      <div class="err-msg" id="sp-pass-err"></div>
+      <div style="display:flex;gap:10px">
+        <button class="btn btn-ghost" onclick="backToCpChoice()">Back</button>
+        <button class="btn btn-cyan" onclick="verifyPhoneForPasswordChange()">Verify</button>
+      </div>
+    </div>
+
+    <div id="cp-step-newpass" style="display:none">
+      <div class="inp-label">New Password</div>
+      <input class="inp" type="password" id="sp-new-pass" placeholder="Enter new password">
+      <div class="err-msg" id="sp-newpass-err"></div>
+      <div style="display:flex;gap:10px">
+        <button class="btn btn-ghost" onclick="closeSubPanel('sp-chpass')">Cancel</button>
+        <button class="btn btn-cyan" onclick="doChangePass()">Update Password</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="sub-panel-overlay" id="sp-delacc">
+  <div class="sub-panel-box">
+    <div class="sub-panel-title">🗑️ Delete Account Permanently</div>
+
+    <div id="del-method-choice">
+      <div class="inp-label">Choose a method</div>
+      <button class="btn btn-ghost" style="margin-bottom:10px" onclick="showDelMethod('pass')">Use Current Password</button>
+      <button class="btn btn-ghost" onclick="showDelMethod('forgot')">Forgot Password (Verify Phone)</button>
+      <div style="display:flex;gap:10px;margin-top:14px">
+        <button class="btn btn-ghost" onclick="closeSubPanel('sp-delacc')">Cancel</button>
+      </div>
+    </div>
+
+    <div id="del-method-pass" style="display:none">
+      <div class="inp-label">Current Password</div>
+      <input class="inp" type="password" id="del-curr-pass" placeholder="Enter current password">
+      <div class="err-msg" id="del-pass-err"></div>
+      <div style="display:flex;gap:10px">
+        <button class="btn btn-ghost" onclick="backToDelChoice()">Back</button>
+        <button class="btn btn-red" onclick="confirmDeleteByPassword()">Delete Account</button>
+      </div>
+    </div>
+
+    <div id="del-method-phone" style="display:none">
+      <div class="inp-label">Registered Phone Number</div>
+      <input class="inp" type="tel" id="del-phone-verify" placeholder="Enter registered phone number">
+      <div class="err-msg" id="del-phone-err"></div>
+      <div style="display:flex;gap:10px">
+        <button class="btn btn-ghost" onclick="backToDelChoice()">Back</button>
+        <button class="btn btn-red" onclick="confirmDeleteByPhone()">Delete Account</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="popup-overlay" id="confirm-popup">
+  <div class="popup-box">
+    <div class="popup-icon" id="pop-icon">⚠️</div>
+    <div class="popup-title" id="pop-title">Confirm Action</div>
+    <div class="popup-msg" id="pop-msg">Are you sure?</div>
+    <div class="popup-btns">
+      <button class="popup-cancel" onclick="closeConfirm()">Cancel</button>
+      <button class="popup-confirm" id="pop-confirm-btn">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<div class="edit-popup-overlay" id="edit-popup">
+  <div class="edit-popup-box">
+    <div class="edit-popup-title">✏️ Edit Entry</div>
+    <input type="hidden" id="edit-idx">
+    <div class="inp-label">Entry Date</div>
+    <input class="inp" type="date" id="edit-date">
+    <div class="inp-label">Investment ($)</div>
+    <input class="inp" type="number" id="edit-invest" step="0.01">
+    <div class="inp-label">Balance ($)</div>
+    <input class="inp" type="number" id="edit-balance" step="0.01">
+    <div class="inp-label">Weight (g)</div>
+    <input class="inp" type="number" id="edit-grams" step="0.0001">
+    <div class="err-msg" id="edit-err"></div>
+    <div style="display:flex;gap:10px;margin-top:4px">
+      <button class="btn btn-ghost" onclick="closeEditPopup()">Cancel</button>
+      <button class="btn btn-cyan" onclick="saveEdit()">Save Changes</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ─────────────────────────────────────────────
+// FIREBASE INITIALIZATION
+// ─────────────────────────────────────────────
+const firebaseConfig = {
+  apiKey: "AIzaSyANg5LYramIvSqXu61BHy9EPd_GvQiitSI",
+  authDomain: "void-8689.firebaseapp.com",
+  projectId: "void-8689",
+  storageBucket: "void-8689.firebasestorage.app",
+  messagingSenderId: "204545665059",
+  appId: "1:204545665059:web:7d643a7cf45126f66f6996",
+  measurementId: "G-W2H4046VEX"
+};
+
+// ஃபயர்பேஸை துவக்குதல்
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
+const db = firebase.firestore();
+
+// ─────────────────────────────────────────────
+// STORAGE HELPERS (local browser cache)
+// ─────────────────────────────────────────────
+const LS = {
+  get: k => { try { return JSON.parse(localStorage.getItem(k)); } catch { return null; } },
+  set: (k, v) => localStorage.setItem(k, JSON.stringify(v)),
+  rm: k => localStorage.removeItem(k)
+};
+
+// ─────────────────────────────────────────────
+// SERVER STATUS LOCK
+// ─────────────────────────────────────────────
+function getServerStatus() {
+  const v = localStorage.getItem('void_server_status');
+  return v === 'DISCONNECTED' ? 'DISCONNECTED' : 'CONNECTED';
+}
+
+function checkServerStatus() {
+  if (getServerStatus() === 'DISCONNECTED') {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById('sc-serverlock').classList.add('active');
+    return false;
+  }
+  return true;
+}
+
+setInterval(() => {
+  const lockScreen = document.getElementById('sc-serverlock');
+  if (getServerStatus() === 'DISCONNECTED') {
+    if (!lockScreen.classList.contains('active')) {
+      checkServerStatus();
+    }
+  } else if (lockScreen.classList.contains('active')) {
+    lockScreen.classList.remove('active');
+    forceLogout();
+  }
+}, 1000);
+
+window.addEventListener('storage', (e) => {
+  if (e.key === 'void_server_status') {
+    if (e.newValue === 'DISCONNECTED') {
+      checkServerStatus();
+    } else {
+      const lockScreen = document.getElementById('sc-serverlock');
+      if (lockScreen.classList.contains('active')) {
+        lockScreen.classList.remove('active');
+        forceLogout();
+      }
+    }
+  }
+});
+
+// ─────────────────────────────────────────────
+// SCREEN ROUTING
+// ─────────────────────────────────────────────
+function showSc(id) {
+  if (!checkServerStatus()) return;
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+// ─────────────────────────────────────────────
+// LOCAL USER CACHE (localStorage mirrors Firestore)
+// ─────────────────────────────────────────────
+let currentUser = null;
+
+function getUsers() { return LS.get('vi_users') || {}; }
+function saveUsers(u) { LS.set('vi_users', u); }
+
+// ─────────────────────────────────────────────
+// FIRESTORE USER HELPERS
+// Each VOID ID is a doc in the "users" collection:
+//   users/{vid}  -> { password, phone, createdAt }
+//   users/{vid}/investments/{entryId} -> entry
+// localStorage (vi_users) is kept as an offline cache/mirror.
+// ─────────────────────────────────────────────
+async function fetchUserFromFirestore(vid) {
+  try {
+    const doc = await db.collection('users').doc(vid).get();
+    return doc.exists ? doc.data() : null;
+  } catch (e) {
+    console.error('Firestore fetch user error:', e);
+    return null;
+  }
+}
+
+async function findVidByPhoneFirestore(phone) {
+  try {
+    const snap = await db.collection('users').where('phone', '==', phone).limit(1).get();
+    return snap.empty ? null : snap.docs[0].id;
+  } catch (e) {
+    console.error('Firestore phone lookup error:', e);
+    return null;
+  }
+}
+
+async function fetchEntriesFromFirestore(vid) {
+  try {
+    const snap = await db.collection('users').doc(vid).collection('investments').get();
+    const entries = snap.docs.map(d => d.data());
+    entries.sort((a, b) => (b.id || 0) - (a.id || 0));
+    return entries;
+  } catch (e) {
+    console.error('Firestore fetch entries error:', e);
+    return null;
+  }
+}
+
+// ─────────────────────────────────────────────
+// AUTH
+// ─────────────────────────────────────────────
+async function doLogin() {
+  if (!checkServerStatus()) return;
+  const vid = document.getElementById('l-vid').value.trim();
+  const pass = document.getElementById('l-pass').value;
+  const err = document.getElementById('l-err');
+  const btn = document.getElementById('l-btn');
+  err.textContent = '';
+  if (!vid || !pass) { err.textContent = 'Fill all fields'; return; }
+
+  btn.disabled = true;
+  btn.textContent = 'SIGNING IN...';
+
+  // 1. Firestore ஆதாரமாக சரிபார்க்கவும் (cloud is source of truth)
+  const remoteUser = await fetchUserFromFirestore(vid);
+  const users = getUsers();
+  let record = remoteUser || users[vid];
+
+  btn.disabled = false;
+  btn.textContent = 'LOGIN';
+
+  if (!record || record.password !== btoa(pass)) {
+    err.textContent = 'Invalid VOID ID or password';
+    return;
+  }
+
+  // 2. லோக்கல் கேச் புதுப்பிக்கவும்
+  if (remoteUser) {
+    const remoteEntries = await fetchEntriesFromFirestore(vid);
+    users[vid] = {
+      password: remoteUser.password,
+      phone: remoteUser.phone,
+      entries: remoteEntries !== null ? remoteEntries : (users[vid]?.entries || [])
+    };
+    saveUsers(users);
+  }
+
+  currentUser = vid;
+  document.getElementById('l-vid').value = '';
+  document.getElementById('l-pass').value = '';
+  initDash();
+  showSc('sc-dash');
+  toast('Welcome back, ' + vid + '!');
+}
+
+async function doRegister() {
+  if (!checkServerStatus()) return;
+  const vid = document.getElementById('r-vid').value.trim();
+  const phone = document.getElementById('r-phone').value.trim();
+  const pass = document.getElementById('r-pass').value;
+  const cpass = document.getElementById('r-cpass').value;
+  const err = document.getElementById('r-err');
+  const btn = document.getElementById('r-btn');
+  err.textContent = '';
+  if (!vid || !phone || !pass || !cpass) { err.textContent = 'All fields are required'; return; }
+  if (pass !== cpass) { err.textContent = 'Passwords do not match'; return; }
+  if (vid.length < 3) { err.textContent = 'VOID ID must be at least 3 characters'; return; }
+
+  const users = getUsers();
+  if (users[vid]) { err.textContent = 'VOID ID already taken'; return; }
+
+  btn.disabled = true;
+  btn.textContent = 'CHECKING...';
+  const existsRemote = await fetchUserFromFirestore(vid);
+  btn.disabled = false;
+  btn.textContent = 'CREATE ACCOUNT';
+
+  if (existsRemote) { err.textContent = 'VOID ID already taken'; return; }
+
+  const userRecord = { password: btoa(pass), phone, createdAt: Date.now() };
+
+  // 1. லோக்கல் ஸ்டோரேஜ் சேமிப்பு
+  users[vid] = { ...userRecord, entries: [] };
+  saveUsers(users);
+
+  // 2. ஃபயர்பேஸ் ஃபயர்ஸ்டோர் சேமிப்பு
+  db.collection('users').doc(vid).set(userRecord)
+    .then(() => console.log('User synced to Firebase'))
+    .catch(e => console.error('Error syncing new user to Firebase:', e));
+
+  currentUser = vid;
+  document.getElementById('r-vid').value = '';
+  document.getElementById('r-phone').value = '';
+  document.getElementById('r-pass').value = '';
+  document.getElementById('r-cpass').value = '';
+  initDash();
+  showSc('sc-dash');
+  toast('Account created! Welcome, ' + vid + '!');
+}
+
+function serverVerifyPhone(phone) {
+  return new Promise(async resolve => {
+    // 1. Firestore ல் தேடவும்
+    const remoteVid = await findVidByPhoneFirestore(phone);
+    if (remoteVid) { resolve(remoteVid); return; }
+    // 2. இணைப்பில்லை என்றால் லோக்கல் கேச் பயன்படுத்தவும்
+    const users = getUsers();
+    const matchVid = Object.keys(users).find(vid => users[vid].phone === phone);
+    resolve(matchVid || null);
+  });
+}
+
+function serverResetPassword(vid, newPasswordEncoded) {
+  return new Promise(async resolve => {
+    // 1. ஃபயர்பேஸ் அப்டேட்
+    try {
+      await db.collection('users').doc(vid).set({ password: newPasswordEncoded }, { merge: true });
+    } catch (e) {
+      console.error('Firebase password reset error:', e);
+    }
+    // 2. லோக்கல் அப்டேட்
+    const users = getUsers();
+    if (!users[vid]) { users[vid] = { entries: [] }; }
+    users[vid].password = newPasswordEncoded;
+    saveUsers(users);
+    resolve(true);
+  });
+}
+
+let forgotVid = null;
+
+async function doForgot() {
+  if (!checkServerStatus()) return;
+  const phone = document.getElementById('f-phone').value.trim();
+  const err = document.getElementById('f-err');
+  const btn = document.getElementById('f-btn');
+  err.textContent = '';
+  if (!phone) { err.textContent = 'Enter your phone number'; return; }
+
+  btn.disabled = true;
+  btn.textContent = 'VERIFYING WITH SERVER...';
+  const matchVid = await serverVerifyPhone(phone);
+  btn.disabled = false;
+  btn.textContent = 'VERIFY WITH SERVER';
+
+  if (!matchVid) {
+    err.textContent = 'No account found with this phone number';
+    return;
+  }
+
+  forgotVid = matchVid;
+  document.getElementById('f-vid-display').value = matchVid;
+  document.getElementById('f-step-phone').style.display = 'none';
+  document.getElementById('f-step-result').style.display = 'block';
+  document.getElementById('f-eyebrow').textContent = 'Verified — set a new password';
+  toast('✅ Phone verified by server');
+}
+
+async function doForgotReset() {
+  const err = document.getElementById('f-err2');
+  err.textContent = '';
+  if (!forgotVid) { err.textContent = 'Please verify your phone number first'; return; }
+  const newp = document.getElementById('f-newpass').value;
+  if (!newp || newp.length < 4) { err.textContent = 'Password too short'; return; }
+
+  const ok = await serverResetPassword(forgotVid, btoa(newp));
+  if (!ok) { err.textContent = 'Server error, please try again'; return; }
+
+  toast('✅ Password updated!');
+  resetForgotForm();
+  showSc('sc-login');
+}
+
+function resetForgotForm() {
+  forgotVid = null;
+  document.getElementById('f-step-phone').style.display = 'block';
+  document.getElementById('f-step-result').style.display = 'none';
+  document.getElementById('f-eyebrow').textContent = 'Identity Verification';
+  ['f-phone','f-vid-display','f-newpass'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('f-err').textContent = '';
+  document.getElementById('f-err2').textContent = '';
+}
+
+// ─────────────────────────────────────────────
+// DASHBOARD INIT
+// ─────────────────────────────────────────────
+function initDash() {
+  const today = new Date();
+  const iso = today.toISOString().split('T')[0];
+  document.getElementById('entry-date-display').textContent = formatDateDisplay(iso);
+  document.getElementById('e-date').value = iso;
+  renderTable();
+  applyThemeUI();
+}
+
+// ─────────────────────────────────────────────
+// ENTRIES
+// ─────────────────────────────────────────────
+function getEntries() {
+  const users = getUsers();
+  return users[currentUser]?.entries || [];
+}
+function saveEntries(entries) {
+  const users = getUsers();
+  if (!users[currentUser]) return;
+  users[currentUser].entries = entries;
+  saveUsers(users);
+}
+
+// ─── புதிய டேட்டாவை லோக்கல் மற்றும் ஃபயர்பேஸில் சேமிக்கும் லாஜிக் ───
+function saveEntry() {
+  if (!checkServerStatus()) return;
+  const invest = parseFloat(document.getElementById('e-invest').value) || 0;
+  const balance = parseFloat(document.getElementById('e-balance').value) || 0;
+  const grams = parseFloat(document.getElementById('e-grams').value) || 0;
+  const date = document.getElementById('e-date').value;
+  if (!date) { toast('❌ Select a date'); return; }
+  
+  const entries = getEntries();
+  const entryId = Date.now();
+  const newEntry = { date, invest, balance, grams, id: entryId };
+  
+  // 1. லோக்கல் ஸ்டோரேஜ் சேமிப்பு
+  entries.unshift(newEntry);
+  saveEntries(entries);
+  
+  // 2. ஃபயர்பேஸ் ஃபயர்ஸ்டோர் சேமிப்பு
+  db.collection("users").doc(currentUser).collection("investments").doc(String(entryId)).set(newEntry)
+    .then(() => {
+      console.log("Data successfully synced with Firebase Firestore!");
+    })
+    .catch((error) => {
+      console.error("Error syncing with Firebase: ", error);
+    });
+
+  document.getElementById('e-invest').value = '';
+  document.getElementById('e-balance').value = '';
+  document.getElementById('e-grams').value = '';
+  renderTable();
+  toast('✅ Entry saved & Synced!');
+}
+
+// ─────────────────────────────────────────────
+// RENDER TABLE
+// ─────────────────────────────────────────────
+function renderTable() {
+  const entries = getEntries();
+  const searchTxt = document.getElementById('search-txt').value.toLowerCase();
+  const dateF = document.getElementById('date-filter').value;
+
+  let filtered = entries.filter(e => {
+    const matchSearch = !searchTxt ||
+      e.date.includes(searchTxt) ||
+      String(e.invest).includes(searchTxt) ||
+      String(e.balance).includes(searchTxt) ||
+      String(e.grams).includes(searchTxt);
+    const matchDate = !dateF || e.date === dateF;
+    return matchSearch && matchDate;
+  });
+
+  const tbody = document.getElementById('ledger-body');
+  tbody.innerHTML = '';
+
+  if (filtered.length === 0) {
+    tbody.innerHTML = `<tr class="empty-row"><td colspan="6">No entries found</td></tr>`;
+  } else {
+    filtered.forEach((e, i) => {
+      const globalIdx = entries.indexOf(e);
+      const tr = document.createElement('tr');
+      tr.classList.add('row-enter');
+      const balClass = e.balance >= 0 ? 'balance-pos' : 'balance-neg';
+      tr.innerHTML = `
+        <td class="sno">${filtered.length - i}</td>
+        <td>${formatDateDisplay(e.date)}</td>
+        <td>$${e.invest.toFixed(2)}</td>
+        <td class="${balClass}">$${e.balance.toFixed(2)}</td>
+        <td>${e.grams.toFixed(4)} g</td>
+        <td><div class="act-btns">
+          <button class="btn-edit" onclick="openEdit(${globalIdx})">Edit</button>
+          <button class="btn-rm" onclick="openRemoveConfirm(${globalIdx})">Remove</button>
+        </div></td>
+      `;
+      tbody.appendChild(tr);
+    });
+  }
+
+  updateTotals(entries);
+}
+
+function updateTotals(entries) {
+  const ti = entries.reduce((a, e) => a + e.invest, 0);
+  const tb = entries.reduce((a, e) => a + e.balance, 0);
+  const tg = entries.reduce((a, e) => a + e.grams, 0);
+  document.getElementById('t-invest').textContent = `$${ti.toFixed(2)}`;
+  document.getElementById('t-balance').textContent = `$${tb.toFixed(2)}`;
+  document.getElementById('t-grams').textContent = `${tg.toFixed(4)} g`;
+}
+
+// ─────────────────────────────────────────────
+// REMOVE CONFIRM
+// ─────────────────────────────────────────────
+let pendingRemoveIdx = null;
+function openRemoveConfirm(idx) {
+  pendingRemoveIdx = idx;
+  document.getElementById('pop-icon').textContent = '🗑️';
+  document.getElementById('pop-title').textContent = 'Remove Entry';
+  document.getElementById('pop-msg').textContent = 'This entry will be permanently deleted from your ledger. This cannot be undone.';
+  document.getElementById('pop-confirm-btn').textContent = 'Remove';
+  document.getElementById('pop-confirm-btn').onclick = executeRemove;
+  document.getElementById('confirm-popup').classList.add('open');
+}
+
+// ─── டேட்டாவை நீக்கும் போது ஃபயர்பேஸிலும் நீக்கும் லாஜிக் ───
+function executeRemove() {
+  const entries = getEntries();
+  if (pendingRemoveIdx !== null && entries[pendingRemoveIdx]) {
+    const targetId = entries[pendingRemoveIdx].id;
+    
+    // 1. லோக்கல் டெலிட்
+    entries.splice(pendingRemoveIdx, 1);
+    saveEntries(entries);
+    
+    // 2. ஃபயர்பேஸ் டெலிட்
+    db.collection("users").doc(currentUser).collection("investments").doc(String(targetId)).delete()
+      .then(() => console.log("Deleted from Firebase"))
+      .catch(err => console.error("Firebase delete error:", err));
+
+    closeConfirm();
+    renderTable();
+    toast('🗑️ Entry removed');
+  }
+}
+
+// ─────────────────────────────────────────────
+// EDIT POPUP
+// ─────────────────────────────────────────────
+function openEdit(idx) {
+  const entries = getEntries();
+  const e = entries[idx];
+  if (!e) return;
+  document.getElementById('edit-idx').value = idx;
+  document.getElementById('edit-date').value = e.date;
+  document.getElementById('edit-invest').value = e.invest;
+  document.getElementById('edit-balance').value = e.balance;
+  document.getElementById('edit-grams').value = e.grams;
+  document.getElementById('edit-err').textContent = '';
+  document.getElementById('edit-popup').classList.add('open');
+}
+
+// ─── டேட்டாவை எடிட் செய்யும் போது ஃபயர்பேஸிலும் அப்டேட் செய்யும் லாஜிக் ───
+function saveEdit() {
+  const idx = parseInt(document.getElementById('edit-idx').value);
+  const entries = getEntries();
+  if (isNaN(idx) || !entries[idx]) return;
+  const date = document.getElementById('edit-date').value;
+  if (!date) { document.getElementById('edit-err').textContent = 'Date required'; return; }
+  
+  entries[idx].date = date;
+  entries[idx].invest = parseFloat(document.getElementById('edit-invest').value) || 0;
+  entries[idx].balance = parseFloat(document.getElementById('edit-balance').value) || 0;
+  entries[idx].grams = parseFloat(document.getElementById('edit-grams').value) || 0;
+  
+  // 1. லோக்கல் அப்டேட்
+  saveEntries(entries);
+  
+  // 2. ஃபயர்பேஸ் அப்டேட்
+  const targetId = entries[idx].id;
+  db.collection("users").doc(currentUser).collection("investments").doc(String(targetId)).set(entries[idx])
+    .then(() => console.log("Updated on Firebase"))
+    .catch(err => console.error("Firebase update error:", err));
+
+  closeEditPopup();
+  renderTable();
+  toast('✅ Entry updated!');
+}
+
+function closeEditPopup() {
+  document.getElementById('edit-popup').classList.remove('open');
+}
+
+// ─────────────────────────────────────────────
+// LOGOUT
+// ─────────────────────────────────────────────
+function openLogoutConfirm() {
+  closeSettings();
+  document.getElementById('pop-icon').textContent = '🚪';
+  document.getElementById('pop-title').textContent = 'Logout';
+  document.getElementById('pop-msg').textContent = 'Are you sure you want to logout?';
+  document.getElementById('pop-confirm-btn').textContent = 'Yes';
+  document.getElementById('pop-confirm-btn').onclick = executeLogout;
+  document.getElementById('confirm-popup').classList.add('open');
+}
+
+function executeLogout() {
+  forceLogout();
+  closeConfirm();
+  toast('Logged out successfully');
+}
+
+function forceLogout() {
+  currentUser = null;
+  document.getElementById('l-vid').value = '';
+  document.getElementById('l-pass').value = '';
+  resetForgotForm();
+  if (!checkServerStatus()) return;
+  showSc('sc-login');
+}
+
+function closeConfirm() {
+  document.getElementById('confirm-popup').classList.remove('open');
+}
+
+// ─────────────────────────────────────────────
+// SETTINGS PANEL
+// ─────────────────────────────────────────────
+function openSettings() { document.getElementById('settings-overlay').classList.add('open'); }
+function closeSettings(e) {
+  if (!e || e.target === document.getElementById('settings-overlay')) {
+    document.getElementById('settings-overlay').classList.remove('open');
+  }
+}
+
+function openSubPanel(id) {
+  closeSettings();
+  setTimeout(() => document.getElementById(id).classList.add('open'), 200);
+}
+function closeSubPanel(id) {
+  document.getElementById(id).classList.remove('open');
+  if (id === 'sp-chpass') {
+    document.getElementById('cp-method-choice').style.display = 'block';
+    document.getElementById('cp-step-currpass').style.display = 'none';
+    document.getElementById('cp-step-phone').style.display = 'none';
+    document.getElementById('cp-step-newpass').style.display = 'none';
+    document.getElementById('sp-curr-pass').value = '';
+    document.getElementById('sp-phone-verify').value = '';
+    document.getElementById('sp-new-pass').value = '';
+    document.getElementById('sp-currpass-err').textContent = '';
+    document.getElementById('sp-pass-err').textContent = '';
+    document.getElementById('sp-newpass-err').textContent = '';
+    pwChangeVerified = false;
+  }
+  if (id === 'sp-delacc') {
+    backToDelChoice();
+  }
+}
+
+async function doChangeVid() {
+  const newVid = document.getElementById('sp-new-vid').value.trim();
+  const err = document.getElementById('sp-vid-err');
+  err.textContent = '';
+  if (!newVid || newVid.length < 3) { err.textContent = 'VOID ID too short'; return; }
+
+  const users = getUsers();
+  if (users[newVid] && newVid !== currentUser) { err.textContent = 'VOID ID already taken'; return; }
+
+  // Firestore ல் இந்த ID ஏற்கனவே இருக்கிறதா என சரிபார்க்கவும்
+  const existingRemote = await fetchUserFromFirestore(newVid);
+  if (existingRemote && newVid !== currentUser) { err.textContent = 'VOID ID already taken'; return; }
+
+  const data = users[currentUser];
+  const oldVid = currentUser;
+  delete users[currentUser];
+  users[newVid] = data;
+  saveUsers(users);
+  currentUser = newVid;
+  closeSubPanel('sp-chvid');
+  document.getElementById('sp-new-vid').value = '';
+  toast('✅ VOID ID changed to ' + newVid + '!');
+
+  // ஃபயர்பேஸ் migration - பின்னணியில் நடக்கும்
+  migrateFirestoreVid(oldVid, newVid, data);
+}
+
+async function migrateFirestoreVid(oldVid, newVid, data) {
+  try {
+    await db.collection('users').doc(newVid).set({
+      password: data.password,
+      phone: data.phone,
+      createdAt: data.createdAt || Date.now()
+    });
+    const snap = await db.collection('users').doc(oldVid).collection('investments').get();
+    const batch = db.batch();
+    snap.docs.forEach(d => {
+      batch.set(db.collection('users').doc(newVid).collection('investments').doc(d.id), d.data());
+      batch.delete(d.ref);
+    });
+    await batch.commit();
+    await db.collection('users').doc(oldVid).delete();
+    console.log('VOID ID migrated on Firebase');
+  } catch (e) {
+    console.error('Firebase VID migration error:', e);
+  }
+}
+
+let pwChangeVerified = false;
+function showCpMethod(method) {
+  document.getElementById('cp-method-choice').style.display = 'none';
+  document.getElementById('cp-step-currpass').style.display = method === 'pass' ? 'block' : 'none';
+  document.getElementById('cp-step-phone').style.display = method === 'phone' ? 'block' : 'none';
+}
+function backToCpChoice() {
+  document.getElementById('cp-method-choice').style.display = 'block';
+  document.getElementById('cp-step-currpass').style.display = 'none';
+  document.getElementById('cp-step-phone').style.display = 'none';
+  document.getElementById('sp-curr-pass').value = '';
+  document.getElementById('sp-phone-verify').value = '';
+  document.getElementById('sp-currpass-err').textContent = '';
+  document.getElementById('sp-pass-err').textContent = '';
+}
+
+function verifyCurrentPasswordForChange() {
+  const pass = document.getElementById('sp-curr-pass').value;
+  const err = document.getElementById('sp-currpass-err');
+  err.textContent = '';
+  const users = getUsers();
+  if (users[currentUser].password !== btoa(pass)) {
+    err.textContent = 'Incorrect current password';
+    return;
+  }
+  pwChangeVerified = true;
+  document.getElementById('cp-step-currpass').style.display = 'none';
+  document.getElementById('cp-step-newpass').style.display = 'block';
+}
+
+function verifyPhoneForPasswordChange() {
+  const phone = document.getElementById('sp-phone-verify').value.trim();
+  const err = document.getElementById('sp-pass-err');
+  err.textContent = '';
+  const users = getUsers();
+  const record = users[currentUser];
+  if (!record || record.phone !== phone) {
+    err.textContent = 'Phone number does not match our records';
+    return;
+  }
+  pwChangeVerified = true;
+  document.getElementById('cp-step-phone').style.display = 'none';
+  document.getElementById('cp-step-newpass').style.display = 'block';
+}
+
+function doChangePass() {
+  const err = document.getElementById('sp-newpass-err');
+  err.textContent = '';
+  if (!pwChangeVerified) { err.textContent = 'Verification required'; return; }
+  const newp = document.getElementById('sp-new-pass').value;
+  if (!newp || newp.length < 4) { err.textContent = 'New password too short'; return; }
+
+  const encoded = btoa(newp);
+  const users = getUsers();
+
+  // 1. லோக்கல் அப்டேட்
+  users[currentUser].password = encoded;
+  saveUsers(users);
+
+  // 2. ஃபயர்பேஸ் அப்டேட்
+  db.collection('users').doc(currentUser).set({ password: encoded }, { merge: true })
+    .then(() => console.log('Password updated on Firebase'))
+    .catch(e => console.error('Firebase password update error:', e));
+
+  pwChangeVerified = false;
+  closeSubPanel('sp-chpass');
+  toast('✅ Password changed!');
+}
+
+function showDelMethod(method) {
+  document.getElementById('del-method-choice').style.display = 'none';
+  document.getElementById('del-method-pass').style.display = method === 'pass' ? 'block' : 'none';
+  document.getElementById('del-method-phone').style.display = method === 'forgot' ? 'block' : 'none';
+}
+function backToDelChoice() {
+  document.getElementById('del-method-choice').style.display = 'block';
+  document.getElementById('del-method-pass').style.display = 'none';
+  document.getElementById('del-method-phone').style.display = 'none';
+  document.getElementById('del-curr-pass').value = '';
+  document.getElementById('del-phone-verify').value = '';
+  document.getElementById('del-pass-err').textContent = '';
+  document.getElementById('del-phone-err').textContent = '';
+}
+
+function confirmDeleteByPassword() {
+  const pass = document.getElementById('del-curr-pass').value;
+  const err = document.getElementById('del-pass-err');
+  err.textContent = '';
+  const users = getUsers();
+  if (users[currentUser].password !== btoa(pass)) { err.textContent = 'Incorrect password'; return; }
+  openDeleteAccountConfirm();
+}
+
+function confirmDeleteByPhone() {
+  const phone = document.getElementById('del-phone-verify').value.trim();
+  const err = document.getElementById('del-phone-err');
+  err.textContent = '';
+  const users = getUsers();
+  if (users[currentUser].phone !== phone) { err.textContent = 'Phone number does not match our records'; return; }
+  openDeleteAccountConfirm();
+}
+
+function openDeleteAccountConfirm() {
+  document.getElementById('pop-icon').textContent = '⚠️';
+  document.getElementById('pop-title').textContent = 'Delete Account';
+  document.getElementById('pop-msg').textContent = 'This will permanently delete your account and all data. This cannot be undone.';
+  document.getElementById('pop-confirm-btn').textContent = 'Delete Permanently';
+  document.getElementById('pop-confirm-btn').onclick = executeDeleteAccount;
+  document.getElementById('confirm-popup').classList.add('open');
+}
+
+async function executeDeleteAccount() {
+  const users = getUsers();
+  const vidToDelete = currentUser;
+  delete users[vidToDelete];
+  saveUsers(users);
+  closeConfirm();
+  closeSubPanel('sp-delacc');
+  toast('Account deleted');
+  forceLogout();
+
+  // ஃபயர்பேஸ் தரவை நீக்கவும் (doc + investments subcollection)
+  try {
+    const snap = await db.collection('users').doc(vidToDelete).collection('investments').get();
+    const batch = db.batch();
+    snap.docs.forEach(d => batch.delete(d.ref));
+    await batch.commit();
+    await db.collection('users').doc(vidToDelete).delete();
+    console.log('Account deleted from Firebase');
+  } catch (e) {
+    console.error('Firebase account delete error:', e);
+  }
+}
+
+// ─────────────────────────────────────────────
+// THEME
+// ─────────────────────────────────────────────
+function toggleTheme() {
+  const isLight = document.body.classList.toggle('light');
+  LS.set('vi_theme', isLight ? 'light' : 'dark');
+  applyThemeUI();
+}
+
+function applyThemeUI() {
+  const isLight = document.body.classList.contains('light');
+  const toggle = document.getElementById('theme-toggle');
+  const desc = document.getElementById('s-theme-desc');
+  const btn = document.getElementById('theme-btn');
+  if (toggle) toggle.classList.toggle('on', isLight);
+  if (desc) desc.textContent = isLight ? 'Light Mode' : 'Dark Mode';
+  if (btn) btn.textContent = isLight ? '🌙' : '☀️';
+}
+
+function loadTheme() {
+  const t = LS.get('vi_theme');
+  if (t === 'light') document.body.classList.add('light');
+}
+
+// ─────────────────────────────────────────────
+// HELPERS
+// ─────────────────────────────────────────────
+function formatDateDisplay(iso) {
+  if (!iso) return '';
+  const [y, m, d] = iso.split('-');
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  return `${parseInt(d)} ${months[parseInt(m)-1]} ${y}`;
+}
+
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// ─────────────────────────────────────────────
+// CLOSE POPUPS ON BG CLICK
+// ─────────────────────────────────────────────
+document.getElementById('confirm-popup').addEventListener('click', function(e) {
+  if (e.target === this) closeConfirm();
+});
+document.getElementById('edit-popup').addEventListener('click', function(e) {
+  if (e.target === this) closeEditPopup();
+});
+['sp-chpass','sp-chvid','sp-delacc'].forEach(id => {
+  document.getElementById(id).addEventListener('click', function(e) {
+    if (e.target === this) closeSubPanel(id);
+  });
+});
+
+// ─────────────────────────────────────────────
+// SESSION ENFORCEMENT
+// ─────────────────────────────────────────────
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible') {
+    if (currentUser !== null) forceLogout();
+    else checkServerStatus();
+  }
+});
+window.addEventListener('pageshow', () => {
+  forceLogout();
+});
+window.addEventListener('blur', () => {
+  currentUser = null;
+});
+
+// ─────────────────────────────────────────────
+// BOOT
+// ─────────────────────────────────────────────
+loadTheme();
+if (checkServerStatus()) {
+  forceLogout();
+}
+</script>
+</body>
+</html>
+
